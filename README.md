@@ -1,5 +1,5 @@
 # PROJETO E-COMMERCE_2020
-Projeto para estudos da faculdade.
+Projeto para estudo utilizando a infraestrutura do modelo de camadas Domain Driven Design
 Tecnologias e ferramnetas utilizadas para o desenvolvimento deste projeto:
 -Microsoft Visual Studio 2019 Community;
 -Microsoft SQL Server 2019;
