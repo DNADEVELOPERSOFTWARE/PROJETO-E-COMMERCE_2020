@@ -1,4 +1,5 @@
-﻿using Entity.Entities.Produtos;
+﻿using Entity.Entities.Compras;
+using Entity.Entities.Produtos;
 using Entity.Entities.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ namespace Infrastructure.Configurations.Context
         }
 
         public DbSet<Produto> Produto { get; set; }
+        public DbSet<CompraUsuario> CompraUsuario { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -37,7 +39,7 @@ namespace Infrastructure.Configurations.Context
             //string strCon = "Data Source==(localdb)\\MSSQLLocalDB;Initial Catalog=E-Commercer2020;Integrated Security=False;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
 
             ////String para o bando de dados Mysql
-            string strCon = "Data Source = localhost;port=3308;database=E-Commerce_2020;user=root;password=toor";
+            string strCon = "Data Source = localhost;port=3308;database=E-Commerce_1_2020;user=root;password=toor";
 
             return strCon;
         }

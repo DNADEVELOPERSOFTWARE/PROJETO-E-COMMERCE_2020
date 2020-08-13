@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(BaseContexto))]
-    [Migration("20200813065516_novoteste")]
-    partial class novoteste
+    [Migration("20200813175613_ModificaTabelas")]
+    partial class ModificaTabelas
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -19,26 +19,84 @@ namespace Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "3.1.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("Entity.Entities.Compras.CompraUsuario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("CodigoUsuario")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Estado")
+                        .HasColumnName("CompraUsuarioEstado")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProdutoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuantidadeCompra")
+                        .HasColumnName("CompraUsuarioQntde")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProdutoId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CompraUsuario");
+                });
+
             modelBuilder.Entity("Entity.Entities.Produtos.Produto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("PRODUTOID")
+                        .HasColumnName("ProdutoId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("DataAlteracao")
+                        .HasColumnName("ProdutoDataAlteracao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnName("ProdutoDataCadastro")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Descricao")
+                        .HasColumnName("ProdutoDescricao")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<bool>("Estado")
-                        .HasColumnName("PRODUTOESTADO")
+                        .HasColumnName("ProdutoEstado")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Nome")
-                        .HasColumnName("PRODUTONOME")
+                        .HasColumnName("ProdutoNome")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("Observacao")
+                        .HasColumnName("ProdutoObservacao")
+                        .HasColumnType("varchar(2000) CHARACTER SET utf8mb4")
+                        .HasMaxLength(2000);
+
+                    b.Property<string>("QuantidadeEstoque")
+                        .HasColumnName("ProdutoQtdEstoque")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
                     b.Property<decimal>("Valor")
-                        .HasColumnName("PRODUTOVALOR")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnName("ProdutoValor")
+                        .HasColumnType("decimal(65,30)")
+                        .HasMaxLength(150);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Produto");
                 });
@@ -51,6 +109,26 @@ namespace Infrastructure.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("CEP")
+                        .HasColumnName("CEP")
+                        .HasColumnType("varchar(15) CHARACTER SET utf8mb4")
+                        .HasMaxLength(15);
+
+                    b.Property<string>("CPF")
+                        .HasColumnName("CPF")
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Celular")
+                        .HasColumnName("Celular")
+                        .HasColumnType("varchar(20) CHARACTER SET utf8mb4")
+                        .HasMaxLength(20);
+
+                    b.Property<string>("ComplementoEndereco")
+                        .HasColumnName("ComplementoEndereco")
+                        .HasColumnType("varchar(450) CHARACTER SET utf8mb4")
+                        .HasMaxLength(450);
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
@@ -62,11 +140,29 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<string>("Endereco")
+                        .HasColumnName("Endereco")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
+
+                    b.Property<bool>("Estado")
+                        .HasColumnName("Estado")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("Idade")
+                        .HasColumnName("Idade")
+                        .HasColumnType("int");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Nome")
+                        .HasColumnName("Nome")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
@@ -87,6 +183,15 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Telefone")
+                        .HasColumnName("Telefone")
+                        .HasColumnType("varchar(20) CHARACTER SET utf8mb4")
+                        .HasMaxLength(20);
+
+                    b.Property<int>("Tipo")
+                        .HasColumnName("Tipo")
+                        .HasColumnType("int");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("tinyint(1)");
@@ -237,6 +342,26 @@ namespace Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Entity.Entities.Compras.CompraUsuario", b =>
+                {
+                    b.HasOne("Entity.Entities.Produtos.Produto", "Produto")
+                        .WithMany()
+                        .HasForeignKey("ProdutoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entity.Entities.Users.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Entity.Entities.Produtos.Produto", b =>
+                {
+                    b.HasOne("Entity.Entities.Users.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
