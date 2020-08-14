@@ -1,18 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Application.Interfaces.IProduto;
+using Application.OpenApp.AppProdutos;
+using Domain.Interfaces.Generic;
+using Domain.Interfaces.InterfaceProduto;
+using Domain.Interfaces.InterfaceServico;
+using Domain.Services.ServiceProdutos;
+using Infrastructure.Configurations.Context;
+using Infrastructure.Repository.Generic;
+using Infrastructure.Repository.Repositories;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Web_E_Commerce.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Infrastructure.Configurations.Context;
 
 namespace Web_E_Commerce
 {
@@ -27,7 +28,7 @@ namespace Web_E_Commerce
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {   
+        {
             ////COnxão Com Sql Server
             //services.AddDbContext<BaseContexto>(options =>
             //    options.UseSqlServer(
@@ -41,6 +42,16 @@ namespace Web_E_Commerce
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<BaseContexto>();
+
+            // INTERFACES E REPOSITÓRIOS
+            services.AddSingleton(typeof(IGenerica<>), typeof(RepositorioGenerico<>));
+            services.AddSingleton<IProduto, RepositorioProduto>();
+
+            // INTERFACES DA APPLICATION
+            services.AddSingleton<InterfaceProdutoApp, AppProduto>();
+
+            //SERVIÇOS DO DOMINIO
+            services.AddSingleton<IServiceProduto, ServiceProduto>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();

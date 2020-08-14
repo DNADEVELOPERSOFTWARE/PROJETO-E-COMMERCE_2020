@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Entity.Entities.Users
 {
 
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser<string>
     {
         [Column("CPF")]
         [MaxLength(50)]
@@ -53,6 +53,6 @@ namespace Entity.Entities.Users
 
         [Column("Tipo")]
         [Display(Name = "Tipo usúario")]
-        public TipoUsuario Tipo { get; set; }
+        public TipoUsuario? Tipo { get; set; }
     }
 }

@@ -4,10 +4,45 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Migrations
 {
-    public partial class ModificaTabelas : Migration
+    public partial class Inicio : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "ApplicationUser",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    UserName = table.Column<string>(nullable: true),
+                    NormalizedUserName = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    NormalizedEmail = table.Column<string>(nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    CPF = table.Column<string>(maxLength: 50, nullable: true),
+                    Idade = table.Column<int>(nullable: false),
+                    Nome = table.Column<string>(maxLength: 255, nullable: true),
+                    CEP = table.Column<string>(maxLength: 15, nullable: true),
+                    Endereco = table.Column<string>(maxLength: 255, nullable: true),
+                    ComplementoEndereco = table.Column<string>(maxLength: 450, nullable: true),
+                    Celular = table.Column<string>(maxLength: 20, nullable: true),
+                    Telefone = table.Column<string>(maxLength: 20, nullable: true),
+                    Estado = table.Column<bool>(nullable: false),
+                    Tipo = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ApplicationUser", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -40,21 +75,38 @@ namespace Infrastructure.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    CPF = table.Column<string>(maxLength: 50, nullable: true),
-                    Idade = table.Column<int>(nullable: false),
-                    Nome = table.Column<string>(maxLength: 255, nullable: true),
-                    CEP = table.Column<string>(maxLength: 15, nullable: true),
-                    Endereco = table.Column<string>(maxLength: 255, nullable: true),
-                    ComplementoEndereco = table.Column<string>(maxLength: 450, nullable: true),
-                    Celular = table.Column<string>(maxLength: 20, nullable: true),
-                    Telefone = table.Column<string>(maxLength: 20, nullable: true),
-                    Estado = table.Column<bool>(nullable: false),
-                    Tipo = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Produto",
+                columns: table => new
+                {
+                    ProdutoId = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    ProdutoNome = table.Column<string>(maxLength: 255, nullable: true),
+                    ProdutoDescricao = table.Column<string>(nullable: true),
+                    ProdutoObservacao = table.Column<string>(maxLength: 2000, nullable: true),
+                    ProdutoValor = table.Column<decimal>(maxLength: 150, nullable: false),
+                    ProdutoQtdEstoque = table.Column<string>(nullable: true),
+                    ProdutoEstado = table.Column<bool>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    ProdutoDataCadastro = table.Column<DateTime>(nullable: false),
+                    ProdutoDataAlteracao = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Produto", x => x.ProdutoId);
+                    table.ForeignKey(
+                        name: "FK_Produto_ApplicationUser_UserId",
+                        column: x => x.UserId,
+                        principalTable: "ApplicationUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -164,33 +216,6 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Produto",
-                columns: table => new
-                {
-                    ProdutoId = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    ProdutoNome = table.Column<string>(maxLength: 255, nullable: true),
-                    ProdutoDescricao = table.Column<string>(nullable: true),
-                    ProdutoObservacao = table.Column<string>(maxLength: 2000, nullable: true),
-                    ProdutoValor = table.Column<decimal>(maxLength: 150, nullable: false),
-                    ProdutoQtdEstoque = table.Column<string>(nullable: true),
-                    ProdutoEstado = table.Column<bool>(nullable: false),
-                    UserId = table.Column<string>(nullable: true),
-                    ProdutoDataCadastro = table.Column<DateTime>(nullable: false),
-                    ProdutoDataAlteracao = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Produto", x => x.ProdutoId);
-                    table.ForeignKey(
-                        name: "FK_Produto_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "CompraUsuario",
                 columns: table => new
                 {
@@ -211,9 +236,9 @@ namespace Infrastructure.Migrations
                         principalColumn: "ProdutoId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CompraUsuario_AspNetUsers_UserId",
+                        name: "FK_CompraUsuario_ApplicationUser_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "ApplicationUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -295,10 +320,13 @@ namespace Infrastructure.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "Produto");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "ApplicationUser");
         }
     }
 }
