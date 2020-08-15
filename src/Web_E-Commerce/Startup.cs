@@ -4,6 +4,7 @@ using Domain.Interfaces.Generic;
 using Domain.Interfaces.InterfaceProduto;
 using Domain.Interfaces.InterfaceServico;
 using Domain.Services.ServiceProdutos;
+using Entity.Entities.Users;
 using Infrastructure.Configurations.Context;
 using Infrastructure.Repository.Generic;
 using Infrastructure.Repository.Repositories;
@@ -33,14 +34,14 @@ namespace Web_E_Commerce
             //services.AddDbContext<BaseContexto>(options =>
             //    options.UseSqlServer(
             //        Configuration.GetConnectionString("DefaultConnection")));
-            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //    .AddEntityFrameworkStores<BaseContexto>();
 
             //Conexão com Mysql
             services.AddDbContext<BaseContexto>(options =>
                 options.UseMySql(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<BaseContexto>();
 
             // INTERFACES E REPOSITÓRIOS

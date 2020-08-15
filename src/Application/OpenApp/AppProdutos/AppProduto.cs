@@ -27,6 +27,10 @@ namespace Application.OpenApp.AppProdutos
             await _IServiceProduto.UpdateProduto(produto);
         }
 
+        public async Task<List<Produto>> ListarProdutoUsuario(string userId)
+        {
+            return await _IProduto.ListarProdutoUsuario(userId);  
+        }
         //Métodos do CRUD
         public async Task Add(Produto Objeto)
         {

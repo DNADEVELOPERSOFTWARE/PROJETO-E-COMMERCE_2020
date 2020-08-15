@@ -29,12 +29,11 @@ namespace Entity.Entities.Produtos
 
         [Column("ProdutoValor")]
         [Display(Name = "Valor")]
-        [MaxLength(150)]
         public decimal Valor { get; set; }
 
         [Column("ProdutoQtdEstoque")]
-        [Display(Name = "Quantidade toque")]
-        public string QuantidadeEstoque { get; set; }
+        [Display(Name = "Quantidade estoque")]
+        public int QuantidadeEstoque { get; set; }
       
         [Column("ProdutoEstado")]
         [Display(Name = "Estado")]

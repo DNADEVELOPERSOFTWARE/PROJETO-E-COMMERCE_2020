@@ -1,6 +1,7 @@
 ﻿using Domain.Interfaces.InterfaceProduto;
 using Domain.Interfaces.InterfaceServico;
 using Entity.Entities.Produtos;
+using System;
 using System.Threading.Tasks;
 
 namespace Domain.Services.ServiceProdutos
@@ -23,8 +24,12 @@ namespace Domain.Services.ServiceProdutos
 
             var validaValor = produto.ValidarPropriedadeDecimal(produto.Valor, "Valor");
 
-            if (validaNome && validaValor)
+            var validaQntdEstoque = produto.ValidarPropriedadeInt(produto.QuantidadeEstoque, "QuantidadeEstoque");
+
+            if (validaNome && validaValor && validaQntdEstoque)
             {
+                produto.DataCadastro = DateTime.Now;
+                produto.DataAlteracao = DateTime.Now;   
                 produto.Estado = true;
                 await _IProduto.Add(produto);
             }
@@ -36,8 +41,12 @@ namespace Domain.Services.ServiceProdutos
 
             var validaValor = produto.ValidarPropriedadeDecimal(produto.Valor, "Valor");
 
-            if (validaNome && validaValor)
+            var validaQntdEstoque = produto.ValidarPropriedadeInt(produto.QuantidadeEstoque, "QuantidadeEstoque");
+
+            if (validaNome && validaValor && validaQntdEstoque)
             {
+                produto.DataAlteracao = DateTime.Now;
+
                 await _IProduto.Update(produto);
             }
         }

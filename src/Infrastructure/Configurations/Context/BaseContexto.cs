@@ -1,13 +1,12 @@
 ﻿using Entity.Entities.Compras;
 using Entity.Entities.Produtos;
 using Entity.Entities.Users;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Configurations.Context
 {
-    public class BaseContexto : IdentityDbContext<IdentityUser>
+    public class BaseContexto : IdentityDbContext<ApplicationUser>
     {
         public BaseContexto(DbContextOptions<BaseContexto> options) : base(options)
         {
@@ -16,7 +15,7 @@ namespace Infrastructure.Configurations.Context
 
         public DbSet<Produto> Produto { get; set; }
         public DbSet<CompraUsuario> CompraUsuario { get; set; }
-        public DbSet<IdentityUser> IdentityUsers { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -37,7 +36,7 @@ namespace Infrastructure.Configurations.Context
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<IdentityUser>().ToTable("AspNetUsers").HasKey(t => t.Id);
+            builder.Entity<ApplicationUser>().ToTable("AspNetUsers").HasKey(t => t.Id);
             base.OnModelCreating(builder);
         }
         private string GetStringConnectionConfig()

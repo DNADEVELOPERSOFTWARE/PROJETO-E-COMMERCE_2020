@@ -1,25 +1,34 @@
-﻿using Application.Interfaces.IProduto;
-using Entity.Entities.Produtos;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Application.Interfaces.IProduto;
+using Entity.Entities.Produtos;
+using Entity.Entities.Users;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Web_E_Commerce.Controllers
 {
     [Authorize]
     public class ProdutosController : Controller
     {
+        public readonly UserManager<ApplicationUser> _userManager;
+
         public readonly InterfaceProdutoApp _interfaceProdutoApp;
 
-        public ProdutosController(InterfaceProdutoApp interfaceProdutoApp)
+        public ProdutosController(InterfaceProdutoApp interfaceProdutoApp, UserManager<ApplicationUser> userManager)
         {
             _interfaceProdutoApp = interfaceProdutoApp;
+            _userManager = userManager;
         }
+
         // GET: ProdutosController
         public async Task<IActionResult> Index()
         {
-            return View(await _interfaceProdutoApp.List());
+            var idUsuario = await RetornarIdUsuarioLogado();
+
+            return View(await _interfaceProdutoApp.ListarProdutoUsuario(idUsuario));
         }
 
         // GET: ProdutosController/Details/5
@@ -41,19 +50,23 @@ namespace Web_E_Commerce.Controllers
         {
             try
             {
+                var idUsuario = await RetornarIdUsuarioLogado();
+
+                produto.UserId = idUsuario;
+
                 await _interfaceProdutoApp.AddProduto(produto);
-                if (produto.Notitycoes.Any())
+                if (produto.Notificacoes.Any())
                 {
-                    foreach (var item in produto.Notitycoes)
+                    foreach (var item in produto.Notificacoes)
                     {
                         ModelState.AddModelError(item.NomePropriedade, item.mensagem);
                     }
-                    return View("Edit", produto);
+                    return View("Create", produto);
                 }
             }
             catch
             {
-                return View("Edit", produto);
+                return View("Create", produto);
             }
             return RedirectToAction(nameof(Index));
         }
@@ -61,7 +74,7 @@ namespace Web_E_Commerce.Controllers
         // GET: ProdutosController/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            return View(await _interfaceProdutoApp.List());
+            return View(await _interfaceProdutoApp.GetEntityById(id));
         }
 
         // POST: ProdutosController/Edit/5
@@ -72,9 +85,9 @@ namespace Web_E_Commerce.Controllers
             try
             {
                 await _interfaceProdutoApp.UpdateProduto(produto);
-                if (produto.Notitycoes.Any())
+                if (produto.Notificacoes.Any())
                 {
-                    foreach (var item in produto.Notitycoes)
+                    foreach (var item in produto.Notificacoes)
                     {
                         ModelState.AddModelError(item.NomePropriedade, item.mensagem);
                     }
@@ -91,7 +104,7 @@ namespace Web_E_Commerce.Controllers
         // GET: ProdutosController/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            return View(await _interfaceProdutoApp.List());
+            return View(await _interfaceProdutoApp.GetEntityById(id));
         }
 
         // POST: ProdutosController/Delete/5
@@ -111,6 +124,13 @@ namespace Web_E_Commerce.Controllers
             {
                 return View();
             }
+        }
+
+        private async Task<string> RetornarIdUsuarioLogado()
+        {
+            var idUsuario = await _userManager.GetUserAsync(User);
+
+            return idUsuario.Id;
         }
     }
 }

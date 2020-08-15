@@ -14,4 +14,8 @@
     <Folder Include="OpenApp\AppProdutos\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
+  </ItemGroup>
+
 </Project>  

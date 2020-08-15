@@ -7,7 +7,7 @@ namespace Entity.Notification
     {
         public Notifica()
         {
-
+            Notificacoes = new List<Notifica>();
         }
 
         [NotMapped]
@@ -17,14 +17,14 @@ namespace Entity.Notification
         public string mensagem { get; set; }
 
         [NotMapped]
-        public List<Notifica> Notitycoes;
+        public List<Notifica> Notificacoes;
 
         //Métodos de notificações para válidar campos em branco
         public bool ValidarPropriedadeString(string valor, string nomePropriedade)
         {
             if (string.IsNullOrWhiteSpace(valor) || string.IsNullOrWhiteSpace(nomePropriedade))
             {
-                Notitycoes.Add(new Notifica
+                Notificacoes.Add(new Notifica
                 {
                     mensagem = "Campo Obrigatório",
                     NomePropriedade = nomePropriedade
@@ -41,7 +41,7 @@ namespace Entity.Notification
 
             if (valor < 1 || string.IsNullOrWhiteSpace(nomePropriedade))
             {
-                Notitycoes.Add(new Notifica
+                Notificacoes.Add(new Notifica
                 {
                     mensagem = "Valor deve ser maior que 0",
                     NomePropriedade = nomePropriedade
@@ -59,7 +59,7 @@ namespace Entity.Notification
 
             if (valor < 1 || string.IsNullOrWhiteSpace(nomePropriedade))
             {
-                Notitycoes.Add(new Notifica
+                Notificacoes.Add(new Notifica
                 {
                     mensagem = "Valor deve ser maior que 0",
                     NomePropriedade = nomePropriedade
