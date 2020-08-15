@@ -2,6 +2,8 @@
 using Domain.Interfaces.InterfaceServico;
 using Entity.Entities.Produtos;
 using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Domain.Services.ServiceProdutos
@@ -33,6 +35,12 @@ namespace Domain.Services.ServiceProdutos
                 produto.Estado = true;
                 await _IProduto.Add(produto);
             }
+        }
+
+        //Valida se tem a tem pelo menos um item no estoque
+        public async Task<List<Produto>> ListarProdutosComEstoque()
+        {
+            return await _IProduto.ListarProdutos(p => p.QuantidadeEstoque > 0);
         }
 
         public async Task UpdateProduto(Produto produto)

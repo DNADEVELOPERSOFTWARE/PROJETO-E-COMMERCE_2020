@@ -3,8 +3,10 @@ using Entity.Entities.Produtos;
 using Infrastructure.Configurations.Context;
 using Infrastructure.Repository.Generic;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Repository.Repositories
@@ -16,6 +18,15 @@ namespace Infrastructure.Repository.Repositories
         {
             _optionsBulder = new DbContextOptions<BaseContexto>();
         }
+
+        public async Task<List<Produto>> ListarProdutos(Expression<Func<Produto, bool>> exProduto)
+        {
+            using (var banco = new BaseContexto(_optionsBulder))
+            {
+                return await banco.Produto.Where(exProduto).AsNoTracking().ToListAsync();
+            }
+        }
+
         public async Task<List<Produto>> ListarProdutoUsuario(string userId)
         {
             using (var banco = new BaseContexto(_optionsBulder))

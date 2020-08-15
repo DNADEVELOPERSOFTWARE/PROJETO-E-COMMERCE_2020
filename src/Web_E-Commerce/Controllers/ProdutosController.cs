@@ -132,5 +132,19 @@ namespace Web_E_Commerce.Controllers
 
             return idUsuario.Id;
         }
+
+        [AllowAnonymous]
+        [HttpGet("/api/ListaProdutosComEstoque")]
+        public async Task<JsonResult> ListaProdutosComEstoque()
+        {
+            return Json(await _interfaceProdutoApp.ListaProdutoComEstoque());
+        }
+
+        [HttpPost("/api/AdicionarProdutosCarrinho")]
+        public async Task AdicionarProdutosCarrinho(string id, string nome, string qtd)
+        {
+            ///
+            ///
+        }
     }
 }
