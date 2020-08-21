@@ -21,7 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\Infra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entity", "src\Entity\Entity.csproj", "{A47F5F9B-1FA7-40D1-9FA5-6C5A86478E93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web_E-Commerce", "src\Web_E-Commerce\Web_E-Commerce.csproj", "{0B99DFF4-425C-4F16-A97F-3141494CECA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web_E-Commerce", "src\Web_E-Commerce\Web_E-Commerce.csproj", "{0B99DFF4-425C-4F16-A97F-3141494CECA7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0-projet_docs", "0-projet_docs", "{5FC05AFF-A73B-44E4-8493-50A9023A4FCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

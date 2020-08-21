@@ -3,7 +3,7 @@ var ObjetoVenda = new Object();
 
 ObjetoVenda.AdicionarCarrinho = function (idProduto) {
     var nome = $("#nome_" + idProduto).val();
-    var qtd = ("#qtd_" + idProduto).val();
+    var qtd = $("#qtd_" + idProduto).val();
 
     $.ajax({
         type: "POST",
@@ -11,18 +11,23 @@ ObjetoVenda.AdicionarCarrinho = function (idProduto) {
         dataType: "JSON",
         cache: false,
         async: true,
-        data:{
-        "id": idProduto, "nome": nome, "qtd": qtd
-    },
-    success: function (data) {
-
-    }
+        data: {
+            "id": idProduto, "nome": nome, "qtd": qtd
+        },
+        success: function (data) {
+            if (data.successo) {
+                //1 alart-success //2 alert-warning // alert-danger
+                ObjetoAlerta.AlertaTela( 1, "Produto adicionado ao carrinho !");
+            }
+            else {
+                //1 alart-success //2 alert-warning // alert-danger
+                ObjetoAlerta.AlertaTela( 2, "É necessário efetuar o login !");
+            }
+        }
     });
-
-
 }
 
-  
+
 ObjetoVenda.CarregaProdutos = function () {
     $.ajax({
         type: "GET",
@@ -44,16 +49,22 @@ ObjetoVenda.CarregaProdutos = function () {
 
                 htmlConteudo += "Quantidade : <input type'number' value='1' id='" + idQtd + "'>";
 
-                htmlConteudo += "<input type='button' onclick='ObjetoVenda.AdicionarCarrinho("+ Entities.id +")' value='Comprar'> </br>";
+                htmlConteudo += "<input type='button' onclick='ObjetoVenda.AdicionarCarrinho(" + Entities.id + ")' value='Comprar'> </br>";
 
                 htmlConteudo += "</div>";
             });
             $("#DivVendas").html(htmlConteudo);
-           
+
         }
     });
 }
 
+ObjetoVenda.CarregaQtdCarrinho = function () {
+    $("#qtdCarrinho").text("(0)");
+    setTimeout(ObjetoVenda.CarregaQtdCarrinho, 10000);
+}
+
 $(function () {
     ObjetoVenda.CarregaProdutos();
+    ObjetoVenda.CarregaQtdCarrinho();
 });

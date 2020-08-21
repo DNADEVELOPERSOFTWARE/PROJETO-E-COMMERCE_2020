@@ -1,4 +1,5 @@
-﻿using Entity.Entities.Produtos;
+﻿using Entity.Entities.Enuns;
+using Entity.Entities.Produtos;
 using Entity.Entities.Users;
 using Entity.Notification;
 using System.ComponentModel.DataAnnotations;
@@ -22,7 +23,7 @@ namespace Entity.Entities.Compras
 
         [Column("CompraUsuarioEstado")]
         [Display(Name = "Estado")]
-        public int Estado { get; set; }
+        public EstadoCompra Estado { get; set; }
 
         [Column("CompraUsuarioQntde")]
         [Display(Name = "Quantidade")]
