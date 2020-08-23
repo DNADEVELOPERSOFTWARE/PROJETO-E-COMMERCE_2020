@@ -15,13 +15,13 @@ ObjetoVenda.AdicionarCarrinho = function (idProduto) {
             "id": idProduto, "nome": nome, "qtd": qtd
         },
         success: function (data) {
-            if (data.successo) {
+            if (data.sucesso) {
                 //1 alart-success //2 alert-warning // alert-danger
-                ObjetoAlerta.AlertaTela( 1, "Produto adicionado ao carrinho !");
+                ObjetoAlerta.AlertaTela(1, "Produto adicionado ao carrinho !");
             }
             else {
                 //1 alart-success //2 alert-warning // alert-danger
-                ObjetoAlerta.AlertaTela( 2, "É necessário efetuar o login !");
+                ObjetoAlerta.AlertaTela(2, "É necessário efetuar o login !");
             }
         }
     });
@@ -61,6 +61,20 @@ ObjetoVenda.CarregaProdutos = function () {
 
 ObjetoVenda.CarregaQtdCarrinho = function () {
     $("#qtdCarrinho").text("(0)");
+    $.ajax({
+        type: "GET",
+        url: "/api/QuantidadeProdutoCarrinho",
+        dataType: "JSON",
+        cache: false,
+        async: true,
+        success: function (data) {
+            if (data.sucesso) {
+                $("#qtdCarrinho").text("("+data.qtd+")");
+               
+            }
+        }
+    });
+
     setTimeout(ObjetoVenda.CarregaQtdCarrinho, 10000);
 }
 

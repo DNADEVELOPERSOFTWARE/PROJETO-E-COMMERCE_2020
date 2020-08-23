@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Application.Interfaces.IComprasUsuarios;
 using Application.Interfaces.IProduto;
 using Entity.Entities.Produtos;
 using Entity.Entities.Users;
@@ -16,11 +17,13 @@ namespace Web_E_Commerce.Controllers
         public readonly UserManager<ApplicationUser> _userManager;
 
         public readonly InterfaceProdutoApp _interfaceProdutoApp;
+        private readonly ICompraUsuarioApp _iCompraUsuarioApp;
 
-        public ProdutosController(InterfaceProdutoApp interfaceProdutoApp, UserManager<ApplicationUser> userManager)
+        public ProdutosController(InterfaceProdutoApp interfaceProdutoApp, UserManager<ApplicationUser> userManager, ICompraUsuarioApp iCompraUsuarioApp)
         {
             _interfaceProdutoApp = interfaceProdutoApp;
             _userManager = userManager;
+            _iCompraUsuarioApp = iCompraUsuarioApp;
         }
 
         // GET: ProdutosController
@@ -143,6 +146,37 @@ namespace Web_E_Commerce.Controllers
             return Json(await _interfaceProdutoApp.ListaProdutoComEstoque());
         }
 
-        
+        public async Task<IActionResult> ListarProdutosCarrinhoUsuario()
+        {
+            var idUsuario = await RetornarIdUsuarioLogado();
+
+            return View(await _interfaceProdutoApp.ListarProdutoCarrinhoUsuario(idUsuario));
+        }
+
+        // GET: ProdutosController/Delete/5
+        public async Task<IActionResult> RemoverCarrinho(int id)
+        {
+            return View(await _interfaceProdutoApp.ObterProdutoCarrinho(id));
+        }
+
+        // POST: ProdutosController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoverCarrinho(int id, Produto produto)
+        {
+            try
+            {
+                var deletarProduto = await _iCompraUsuarioApp.GetEntityById(id);
+
+                await _iCompraUsuarioApp.Delete(deletarProduto);
+
+                return RedirectToAction(nameof(ListarProdutosCarrinhoUsuario));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
     }
 }

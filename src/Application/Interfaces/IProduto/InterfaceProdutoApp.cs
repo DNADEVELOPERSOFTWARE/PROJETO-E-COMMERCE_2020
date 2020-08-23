@@ -13,5 +13,9 @@ namespace Application.Interfaces.IProduto
         Task<List<Produto>> ListarProdutoUsuario(string userId);
 
         Task<List<Produto>> ListaProdutoComEstoque();
+
+        Task<List<Produto>> ListarProdutoCarrinhoUsuario(string userId);
+
+        Task<Produto> ObterProdutoCarrinho(int ProdutoCarrinhoId);
     }
 }

@@ -19,7 +19,7 @@ namespace Application.OpenApp.AppComprasUsuario
 
         public async Task Add(CompraUsuario Objeto)
         {
-           await _iCompraUsuario.Add(Objeto);
+            await _iCompraUsuario.Add(Objeto);
         }
 
         public async Task Delete(CompraUsuario Objeto)
@@ -41,5 +41,12 @@ namespace Application.OpenApp.AppComprasUsuario
         {
             await _iCompraUsuario.Update(Objeto);
         }
+
+        #region MÉTODOS CUSTUMIZADOS
+        public async Task<int> QuantidadeProdutoCarrinhoUsuario(string userId)
+        {
+            return await _iCompraUsuario.QuantidadeProdutoCarrinhoUsuario(userId);
+        }   
+        #endregion
     }
 }

@@ -17,20 +17,6 @@ namespace Application.OpenApp.AppProdutos
             _IServiceProduto = IServiceProduto;
         }
 
-        //Métodos personalizados com regra de negócio
-        public async Task AddProduto(Produto produto)
-        {
-            await _IServiceProduto.AddProduto(produto);
-        }
-        public async Task UpdateProduto(Produto produto)
-        {
-            await _IServiceProduto.UpdateProduto(produto);
-        }
-
-        public async Task<List<Produto>> ListarProdutoUsuario(string userId)
-        {
-            return await _IProduto.ListarProdutoUsuario(userId);  
-        }
         //Métodos do CRUD
         public async Task Add(Produto Objeto)
         {
@@ -53,9 +39,36 @@ namespace Application.OpenApp.AppProdutos
             await _IProduto.Update(Objeto);
         }
 
-        public  async Task<List<Produto>> ListaProdutoComEstoque()
+        #region MÉTODOS CUSTUMIZADOS
+
+        //Métodos personalizados com regra de negócio
+        public async Task AddProduto(Produto produto)
+        {
+            await _IServiceProduto.AddProduto(produto);
+        }
+        public async Task UpdateProduto(Produto produto)
+        {
+            await _IServiceProduto.UpdateProduto(produto);
+        }
+
+        public async Task<List<Produto>> ListarProdutoUsuario(string userId)
+        {
+            return await _IProduto.ListarProdutoUsuario(userId);
+        }
+        public async Task<List<Produto>> ListaProdutoComEstoque()
         {
             return await _IServiceProduto.ListarProdutosComEstoque();
         }
+        public async Task<List<Produto>> ListarProdutoCarrinhoUsuario(string userId)
+        {
+
+            return await _IProduto.ListarProdutoCarrinhoUsuario(userId);    
+        }
+        public async Task<Produto> ObterProdutoCarrinho(int ProdutoCarrinhoId)
+        {
+
+            return await _IProduto.ObterProdutoCarrinho(ProdutoCarrinhoId);
+        }
+        #endregion
     }
 }

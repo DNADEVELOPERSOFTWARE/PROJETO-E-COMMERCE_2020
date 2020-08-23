@@ -15,11 +15,14 @@ ObjetoAlerta.AlertaTela = function (tipo, mensagem) {
 
     var classeTipoAlerta = "";
 
-    if (tipo == 1) {
+    if (tipo == 1)
+    {
         classeTipoAlerta = "alert alert-success";
-    }else if (tipo == 2) {
+    } else if (tipo == 2)
+    {
         classeTipoAlerta = "alert alert-warning";
-    }else if (tipo == 3) {
+    } else if (tipo == 3)
+    {
         classeTipoAlerta = "alert alert-danger";
     }
 
