@@ -1,10 +1,10 @@
 ﻿@model Entity.Entities.Produtos.Produto
 
 @{
-    ViewData["Title"] = "RemoverCarrinho";
+   
 }
 
-<h1>Remover produtos do carrinho</h1>
+<h1>Remover produtos do meu Carrinho</h1>
 
 <h3>Você tem certeza que desejá realmente deletar este produto:   @Html.DisplayFor(model => model.Nome)?</h3>
 <div
@@ -44,7 +44,7 @@
     
     <form asp-action="RemoverCarrinho">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <input type="submit" value="Remover do Carrinho" class="btn btn-danger" /> |
         <a asp-action="ListarProdutosCarrinhoUsuario">Voltar para a lista de produtos do carrinho</a>
     </form>
 </div>
