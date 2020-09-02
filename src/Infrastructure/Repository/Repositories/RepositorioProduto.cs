@@ -37,7 +37,8 @@ namespace Infrastructure.Repository.Repositories
                                                         Observacao = p.Observacao,
                                                         Valor = p.Valor,
                                                         QuantidadeCompra = c.QuantidadeCompra,
-                                                        ProdutoCarrinhoId = c.Id
+                                                        ProdutoCarrinhoId = c.Id,
+                                                        Url = p.Url
 
                                                     }).AsNoTracking().ToListAsync();
 
@@ -60,7 +61,8 @@ namespace Infrastructure.Repository.Repositories
                                                         Observacao = p.Observacao,
                                                         Valor = p.Valor,
                                                         QuantidadeCompra = c.QuantidadeCompra,
-                                                        ProdutoCarrinhoId = c.Id
+                                                        ProdutoCarrinhoId = c.Id,
+                                                        Url =p.Url
 
                                                     }).AsNoTracking().FirstOrDefaultAsync();
 

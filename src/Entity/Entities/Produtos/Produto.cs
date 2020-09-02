@@ -1,5 +1,6 @@
 ﻿using Entity.Entities.Users;
 using Entity.Notification;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -60,6 +61,12 @@ namespace Entity.Entities.Produtos
 
         [NotMapped]
         public int QuantidadeCompra { get; set; }
+
+        [NotMapped]
+        public IFormFile Imagem { get; set; }
+
+        [Column("ProdutoUrl")]
+        public string Url { get; set; }
 
     }
 }

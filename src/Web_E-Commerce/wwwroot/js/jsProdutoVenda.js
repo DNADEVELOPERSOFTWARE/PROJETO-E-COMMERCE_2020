@@ -44,7 +44,22 @@ ObjetoVenda.CarregaProdutos = function () {
                 var idNome = "nome_" + Entities.id;
                 var idQtd = "qtd_" + Entities.id;
 
-                htmlConteudo += "<label id='" + idNome + "'> Produto: " + Entities.nome + "</label><br/>";
+                /*  htmlConteudo += "</br><label id='" + idNome + "' > Produto: " + Entitie.nome + "</label></br>";
+
+                if (Entitie.url != null && Entitie.url != "" && Entitie.url != undefined) {
+
+                    htmlConteudo += "<img width='200' height='100' src='" + Entitie.url + "'/></br>";
+                }
+
+                htmlConteudo += "<label>  Valor: " + Entitie.valor + "</label></br>";
+
+                htmlConteudo += "Quantidade : <input type'number' value='1' id='" + idQtd + "'>"; */
+
+                htmlConteudo += "<br/><label id='" + idNome + "'> Produto: " + Entities.nome + "</label><br/>";
+            
+                if (Entities.url != null && Entities.url != "" && Entities.url != undefined) {
+                    htmlConteudo += "<img width='200' height='100' src='" + Entities.url + "'/><br/>";
+                }
                 htmlConteudo += "<label> Valor: " + Entities.valor + " </label><br/>";
 
                 htmlConteudo += "Quantidade : <input type'number' value='1' id='" + idQtd + "'>";
