@@ -1,9 +1,9 @@
 ﻿using Application.Interfaces.IComprasUsuarios;
 using Domain.Interfaces.InterfaceCompraUsuario;
+using Domain.Interfaces.InterfaceServico;
 using Entity.Entities.Compras;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.OpenApp.AppComprasUsuario
@@ -12,9 +12,12 @@ namespace Application.OpenApp.AppComprasUsuario
     {
         private readonly ICompraUsuario _iCompraUsuario;
 
-        public AppCompraUsuario(ICompraUsuario iCompraUsuario)
+        private readonly IServiceCompraUsuario _iServiceCompraUsuario;
+
+        public AppCompraUsuario(ICompraUsuario iCompraUsuario, IServiceCompraUsuario iServiceCompraUsuario)
         {
             _iCompraUsuario = iCompraUsuario;
+            _iServiceCompraUsuario = iServiceCompraUsuario;
         }
 
         public async Task Add(CompraUsuario Objeto)
@@ -46,7 +49,22 @@ namespace Application.OpenApp.AppComprasUsuario
         public async Task<int> QuantidadeProdutoCarrinhoUsuario(string userId)
         {
             return await _iCompraUsuario.QuantidadeProdutoCarrinhoUsuario(userId);
-        }   
+        }
+
+        public async Task<CompraUsuario> CarrinhoCompras(string userId)
+        {
+            return await _iServiceCompraUsuario.CarrinhoCompras(userId);
+        }
+
+        public async Task<CompraUsuario> ProdutosComprados(string userId)
+        {
+            return await _iServiceCompraUsuario.ProdutosComprados(userId);
+        }
+
+        public async Task<bool> ConfirmarCompraCarrinhoUsuario(string userId)
+        {
+            return await _iCompraUsuario.ConfirmaCompraCarrinhoUsuario(userId);
+        }
         #endregion
     }
 }

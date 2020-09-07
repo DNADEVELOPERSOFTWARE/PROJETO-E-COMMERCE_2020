@@ -6,6 +6,7 @@ using Domain.Interfaces.Generic;
 using Domain.Interfaces.InterfaceCompraUsuario;
 using Domain.Interfaces.InterfaceProduto;
 using Domain.Interfaces.InterfaceServico;
+using Domain.Services.ServiceComprasUsuarios;
 using Domain.Services.ServiceProdutos;
 using Entity.Entities.Users;
 using Infrastructure.Configurations.Context;
@@ -57,6 +58,7 @@ namespace Web_E_Commerce
 
             //SERVIÇOS DO DOMINIO
             services.AddSingleton<IServiceProduto, ServiceProduto>();
+            services.AddSingleton<IServiceCompraUsuario, ServiceCompraUuuario>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();

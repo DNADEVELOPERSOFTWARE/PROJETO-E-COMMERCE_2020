@@ -2,8 +2,10 @@
 using Entity.Entities.Produtos;
 using Entity.Entities.Users;
 using Entity.Notification;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
 
 namespace Entity.Entities.Compras
 {
@@ -35,5 +37,20 @@ namespace Entity.Entities.Compras
         public string UserId { get; set; }
 
         public virtual ApplicationUser ApplicationUser { get; set; }
+
+        [NotMapped]
+        [Display(Name ="Quantidade Total")]
+        public int QuantidadeProduto { get; set; }
+
+        [NotMapped]
+        [Display(Name ="Valor Total")]
+        public decimal ValorTotal { get; set; }
+
+        [NotMapped]
+        [Display(Name ="Endereço de Entrega")]
+        public string EndercoCompleto { get; set; }
+
+        [NotMapped]
+        public List<Produto> ListaProdutos { get; set; }
     }
 }
