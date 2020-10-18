@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security;
 using System.Security.Permissions;
 using System.Threading.Tasks;
-using Application.Interfaces.IComprasUsuarios;
+using Application.Interfaces.IComprasApps;
 using Application.Interfaces.IProduto;
 using Entity.Entities.Produtos;
 using Entity.Entities.Users;
@@ -153,9 +153,9 @@ namespace Web_E_Commerce.Controllers
 
         [AllowAnonymous]
         [HttpGet("/api/ListaProdutosComEstoque")]
-        public async Task<JsonResult> ListaProdutosComEstoque()
+        public async Task<JsonResult> ListaProdutosComEstoque(string descricao)
         {
-            return Json(await _interfaceProdutoApp.ListaProdutoComEstoque());
+            return Json(await _interfaceProdutoApp.ListaProdutoComEstoque(descricao));
         }
 
         public async Task<IActionResult> ListarProdutosCarrinhoUsuario()

@@ -1,23 +1,26 @@
-using Application.Interfaces.IComprasUsuarios;
+using Application.Interfaces.IComprasApps;
 using Application.Interfaces.IProduto;
-using Application.OpenApp.AppComprasUsuario;
+using Application.OpenApp.AppCompras;
 using Application.OpenApp.AppProdutos;
 using Domain.Interfaces.Generic;
-using Domain.Interfaces.InterfaceCompraUsuario;
+using Domain.Interfaces.InterfaceCompra;
 using Domain.Interfaces.InterfaceProduto;
 using Domain.Interfaces.InterfaceServico;
-using Domain.Services.ServiceComprasUsuarios;
+using Domain.Services.ServiceCompras;
 using Domain.Services.ServiceProdutos;
 using Entity.Entities.Users;
 using Infrastructure.Configurations.Context;
 using Infrastructure.Repository.Generic;
-using Infrastructure.Repository.Repositories;
+using Infrastructure.Repository.Repositories.Produtos;
+using Infrastructure.Repository.Repositories.Compras;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Domain.Interfaces.InterfaceSistema.LogsSitema;
+using Infrastructure.Repository.Repositories.Sistemas;
 
 namespace Web_E_Commerce
 {
@@ -33,28 +36,32 @@ namespace Web_E_Commerce
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            ////COnxão Com Sql Server
-            //services.AddDbContext<BaseContexto>(options =>
-            //    options.UseSqlServer(
-            //        Configuration.GetConnectionString("DefaultConnection")));
-            //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddEntityFrameworkStores<BaseContexto>();
-
-            //Conexão com Mysql
+            //COnxão Com Sql Server
             services.AddDbContext<BaseContexto>(options =>
-                options.UseMySql(
+                options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<BaseContexto>();
+
+            ////Conexão com Mysql
+            //services.AddDbContext<BaseContexto>(options =>
+            //    options.UseMySql(
+            //        Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddEntityFrameworkStores<BaseContexto>();
 
             // INTERFACES E REPOSITÓRIOS
             services.AddSingleton(typeof(IGenerica<>), typeof(RepositorioGenerico<>));
             services.AddSingleton<IProduto, RepositorioProduto>();
             services.AddSingleton<ICompraUsuario, RepositorioCompraUsuario>();
+            services.AddSingleton<ICompra, RepositorioCompra>();
+            services.AddSingleton<ILogSistema, RepositorioLogSistema>();
 
             // INTERFACES DA APPLICATION
             services.AddSingleton<InterfaceProdutoApp, AppProduto>();
             services.AddSingleton<ICompraUsuarioApp, AppCompraUsuario>();
+            services.AddSingleton<ICompra, RepositorioCompra>();
+            services.AddSingleton<ICompraApp, AppCompra>();
 
             //SERVIÇOS DO DOMINIO
             services.AddSingleton<IServiceProduto, ServiceProduto>();

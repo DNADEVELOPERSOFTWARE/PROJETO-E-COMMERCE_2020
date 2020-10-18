@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces.IProduto
 {
-    public interface InterfaceProdutoApp : InterfaceGenericaApp<Produto>
+    public interface InterfaceProdutoApp : IGenericaApp<Produto>
     {
         Task AddProduto(Produto produto);
         Task UpdateProduto(Produto produto);
 
         Task<List<Produto>> ListarProdutoUsuario(string userId);
 
-        Task<List<Produto>> ListaProdutoComEstoque();
+        Task<List<Produto>> ListaProdutoComEstoque(string descricao);
 
         Task<List<Produto>> ListarProdutoCarrinhoUsuario(string userId);
 

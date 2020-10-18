@@ -1,10 +1,9 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Migrations
 {
-    public partial class inicial : Migration
+    public partial class updateDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -62,7 +61,7 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -83,7 +82,7 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -168,7 +167,7 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     ProdutoId = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ProdutoNome = table.Column<string>(maxLength: 255, nullable: true),
                     ProdutoDescricao = table.Column<string>(nullable: true),
                     ProdutoObservacao = table.Column<string>(maxLength: 2000, nullable: true),
@@ -177,7 +176,8 @@ namespace Infrastructure.Migrations
                     ProdutoEstado = table.Column<bool>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
                     ProdutoDataCadastro = table.Column<DateTime>(nullable: false),
-                    ProdutoDataAlteracao = table.Column<DateTime>(nullable: false)
+                    ProdutoDataAlteracao = table.Column<DateTime>(nullable: false),
+                    ProdutoUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -195,7 +195,7 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     CodigoUsuario = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ProdutoId = table.Column<int>(nullable: false),
                     CompraUsuarioEstado = table.Column<int>(nullable: false),
                     CompraUsuarioQntde = table.Column<int>(nullable: false),
@@ -227,7 +227,8 @@ namespace Infrastructure.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -253,7 +254,8 @@ namespace Infrastructure.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CompraUsuario_ProdutoId",

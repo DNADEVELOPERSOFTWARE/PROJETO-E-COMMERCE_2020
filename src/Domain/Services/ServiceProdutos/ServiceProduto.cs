@@ -38,9 +38,14 @@ namespace Domain.Services.ServiceProdutos
         }
 
         //Valida se tem a tem pelo menos um item no estoque
-        public async Task<List<Produto>> ListarProdutosComEstoque()
+        public async Task<List<Produto>> ListarProdutosComEstoque( string descricao)
         {
+            if(string.IsNullOrWhiteSpace(descricao))
             return await _IProduto.ListarProdutos(p => p.QuantidadeEstoque > 0);
+            else
+            {
+                return await _IProduto.ListarProdutos(p => p.QuantidadeEstoque > 0 && p.Nome.ToUpper().Contains(descricao.ToUpper()));
+            }
         }
 
         public async Task UpdateProduto(Produto produto)

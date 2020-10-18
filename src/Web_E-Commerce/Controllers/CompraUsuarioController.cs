@@ -1,23 +1,27 @@
-﻿using Application.Interfaces.IComprasUsuarios;
+﻿using Application.Interfaces.IComprasApps;
 using Entity.Entities.Compras;
 using Entity.Entities.Enuns;
 using Entity.Entities.Users;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Web_E_Commerce.Models;
 
 namespace Web_E_Commerce.Controllers
 {
-    public class CompraUsuarioController : Controller
+    public class CompraUsuarioController : HelpQrCode
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ICompraUsuarioApp _iCompraUsuarioApp;
+        private IWebHostEnvironment _environment;
 
-        public CompraUsuarioController(UserManager<ApplicationUser> userManager, ICompraUsuarioApp iCompraUsuarioApp)
+        public CompraUsuarioController(UserManager<ApplicationUser> userManager, ICompraUsuarioApp iCompraUsuarioApp, IWebHostEnvironment environment)
         {
             _userManager = userManager;
             _iCompraUsuarioApp = iCompraUsuarioApp;
+            _environment = environment;
         }
 
         public async Task<IActionResult> FinalizarCompras()
@@ -30,7 +34,7 @@ namespace Web_E_Commerce.Controllers
         public async Task<IActionResult> MinhasCompras(bool mensagem = false)
         {
             var usuario = await _userManager.GetUserAsync(User);
-            var compraUauasrio = await _iCompraUsuarioApp.ProdutosComprados(usuario.Id);
+            var compraUauasrio = await _iCompraUsuarioApp.MinhasCompras(usuario.Id);
 
             if (mensagem)
             {
@@ -53,7 +57,15 @@ namespace Web_E_Commerce.Controllers
             return RedirectToAction("FinalizarCompras");
         }
 
-        [HttpPost("/api/AdicionarProdutosCarrinho")]
+        public async Task<IActionResult> Imprimir(int id)
+        {
+            var usuario = await _userManager.GetUserAsync(User);
+            var compraUauasrio = await _iCompraUsuarioApp.ProdutosComprados(usuario.Id, id);
+
+            return await Download(compraUauasrio, _environment);
+        }
+
+       [HttpPost("/api/AdicionarProdutosCarrinho")]
         public async Task<JsonResult> AdicionarProdutosCarrinho(string id, string nome, string qtd)
         {
             //Pega o id do usuário logado
@@ -61,7 +73,7 @@ namespace Web_E_Commerce.Controllers
             // Verifica se o usuário é valido
             if (usuario != null)
             {
-                await _iCompraUsuarioApp.Add(new CompraUsuario
+                await _iCompraUsuarioApp.AdicionarProdutoCarrinho(usuario.Id, new CompraUsuario
                 {
                     ProdutoId = Convert.ToInt32(id),
                     QuantidadeCompra = Convert.ToInt32(qtd),

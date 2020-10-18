@@ -68,5 +68,8 @@ namespace Entity.Entities.Produtos
         [Column("ProdutoUrl")]
         public string Url { get; set; }
 
+        [NotMapped]
+        public DateTime? DataCompra { get; set; }
+
     }
 }

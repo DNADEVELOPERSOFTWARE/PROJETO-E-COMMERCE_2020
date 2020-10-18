@@ -10,7 +10,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Repository.Repositories
+namespace Infrastructure.Repository.Repositories.Produtos
 {
     public class RepositorioProduto : RepositorioGenerico<Produto>, IProduto
     {
@@ -28,6 +28,7 @@ namespace Infrastructure.Repository.Repositories
             {
                 var produtoCarrinhoUsuario = await (from p in banco.Produto
                                                     join c in banco.CompraUsuario on p.Id equals c.ProdutoId
+                                                    join co in banco.Compra on c.CompraId equals co.Id
                                                     where c.UserId.Equals(userId) && c.Estado == EstadoCompra.Produto_Carrinho
                                                     select new Produto
                                                     {
@@ -38,7 +39,8 @@ namespace Infrastructure.Repository.Repositories
                                                         Valor = p.Valor,
                                                         QuantidadeCompra = c.QuantidadeCompra,
                                                         ProdutoCarrinhoId = c.Id,
-                                                        Url = p.Url
+                                                        Url = p.Url,
+                                                        DataCompra = co.DataCompra  
 
                                                     }).AsNoTracking().ToListAsync();
 
