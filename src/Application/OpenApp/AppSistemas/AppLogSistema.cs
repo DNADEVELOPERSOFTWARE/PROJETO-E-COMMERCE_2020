@@ -36,7 +36,7 @@ namespace Application.OpenApp.AppSistemas
 
         public async Task<List<LogSistema>> List()
         {
-            return await _iLogSistema.List()
+            return await _iLogSistema.List();
         }
 
        

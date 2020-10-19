@@ -1,37 +1,40 @@
-﻿using System;
+﻿using Application.Interfaces.IComprasApps;
+using Application.Interfaces.IProduto;
+using Application.Interfaces.ISistemas;
+using Entity.Entities.Enuns;
+using Entity.Entities.Produtos;
+using Entity.Entities.Users;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.IO;
 using System.Linq;
 using System.Security;
 using System.Security.Permissions;
 using System.Threading.Tasks;
-using Application.Interfaces.IComprasApps;
-using Application.Interfaces.IProduto;
-using Entity.Entities.Produtos;
-using Entity.Entities.Users;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
+using Web_E_Commerce.Models;
 
 namespace Web_E_Commerce.Controllers
 {
     [Authorize]
-    public class ProdutosController : Controller
+    [LogActionFilter]
+    public class ProdutosController : BaseController
     {
-        public readonly UserManager<ApplicationUser> _userManager;
-
         public readonly InterfaceProdutoApp _interfaceProdutoApp;
         private readonly ICompraUsuarioApp _iCompraUsuarioApp;
         private IWebHostEnvironment _environment;
 
         public ProdutosController(InterfaceProdutoApp interfaceProdutoApp,
+            ILogger<ProdutosController> logger,
             UserManager<ApplicationUser> userManager, ICompraUsuarioApp iCompraUsuarioApp,
+            ILogSistemaApp iLogSistemaApp,
             IWebHostEnvironment environment)
+            :base(logger,userManager,iLogSistemaApp)
         {
             _interfaceProdutoApp = interfaceProdutoApp;
-            _userManager = userManager;
             _iCompraUsuarioApp = iCompraUsuarioApp;
             _environment = environment;
         }
@@ -78,9 +81,11 @@ namespace Web_E_Commerce.Controllers
                 }
 
                 await SalvarImagemProduto(produto);
+                await LogEcommerce(TipoLog.Informativo, produto);
             }
-            catch
+            catch(Exception erro)
             {
+                await LogEcommerce(TipoLog.Erro, erro);
                 return View("Create", produto);
             }
             return RedirectToAction(nameof(Index));
@@ -112,10 +117,12 @@ namespace Web_E_Commerce.Controllers
                     return View("Edit", produto);
                 }
             }
-            catch
+            catch(Exception erro)
             {
+                await LogEcommerce(TipoLog.Erro, erro);
                 return View("Edit", produto);
             }
+            await LogEcommerce(TipoLog.Informativo, produto);
             return RedirectToAction(nameof(Index));
         }
 
@@ -136,19 +143,15 @@ namespace Web_E_Commerce.Controllers
 
                 await _interfaceProdutoApp.Delete(deletarProduto);
 
+                await LogEcommerce(TipoLog.Informativo, deletarProduto);
+
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(Exception erro)
             {
+                await LogEcommerce(TipoLog.Erro, erro);
                 return View();
             }
-        }
-
-        private async Task<string> RetornarIdUsuarioLogado()
-        {
-            var idUsuario = await _userManager.GetUserAsync(User);
-
-            return idUsuario.Id;
         }
 
         [AllowAnonymous]
@@ -182,10 +185,13 @@ namespace Web_E_Commerce.Controllers
 
                 await _iCompraUsuarioApp.Delete(deletarProduto);
 
+                await LogEcommerce(TipoLog.Informativo, deletarProduto);
+
                 return RedirectToAction(nameof(ListarProdutosCarrinhoUsuario));
             }
-            catch
+            catch(Exception erro)
             {
+                await LogEcommerce(TipoLog.Erro, erro);
                 return View();
             }
         }
@@ -219,7 +225,7 @@ namespace Web_E_Commerce.Controllers
             catch (Exception erro)
             {
 
-
+                await LogEcommerce(TipoLog.Erro, erro);
             }
 
         }

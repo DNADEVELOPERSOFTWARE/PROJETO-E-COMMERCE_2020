@@ -6,7 +6,7 @@ namespace Entity.Entities.Enuns
 {
     public enum TipoLog
     {
-        erro = 0,
-        informativo = 1
+        Erro = 0,
+        Informativo = 1
     }
 }

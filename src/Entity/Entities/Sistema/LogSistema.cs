@@ -1,4 +1,5 @@
 ﻿using Entity.Entities.Enuns;
+using Entity.Entities.Users;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,6 +22,15 @@ namespace Entity.Entities.Sistema
 
         [Column("Action")]
         [Display(Name = "Nome da Action")]
-        public TipoLog NomeAction { get; set; }
+        public string NomeAction { get; set; }
+
+        //======------Chaves estrangeiras------======//
+
+        [Display(Name = "Usuario")]
+        [ForeignKey("ApplicationUser")]
+        [Column(Order = 1)]
+        public string UserId { get; set; }
+
+        public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }

@@ -21,6 +21,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Domain.Interfaces.InterfaceSistema.LogsSitema;
 using Infrastructure.Repository.Repositories.Sistemas;
+using Application.OpenApp.AppSistemas;
+using Application.Interfaces.ISistemas;
 
 namespace Web_E_Commerce
 {
@@ -62,6 +64,7 @@ namespace Web_E_Commerce
             services.AddSingleton<ICompraUsuarioApp, AppCompraUsuario>();
             services.AddSingleton<ICompra, RepositorioCompra>();
             services.AddSingleton<ICompraApp, AppCompra>();
+            services.AddSingleton<ILogSistemaApp, AppLogSistema>();
 
             //SERVIÇOS DO DOMINIO
             services.AddSingleton<IServiceProduto, ServiceProduto>();
